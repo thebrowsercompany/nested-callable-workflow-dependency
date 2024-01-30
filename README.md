@@ -13,7 +13,7 @@ Repro:
   - `final` fails
 - Change `SKIP_FAILURE` to `true`
 - Click the re-run job button on the line for the failed `nested_callable_job` on the check summary page
-[single line rerun](./images/single_line_rerun.png)
+![single line rerun](./images/single_line_rerun.png)
 - Observe
   - Only `job2 / ... / nested_callable_job` is listed as planned to run
   - `job2 / callable_job (a) / nested_callable_job` now passes
