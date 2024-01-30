@@ -1,0 +1,37 @@
+---
+name: Nested Callable
+on:
+  workflow_call:
+    inputs:
+      skip-sleep:
+        type: boolean
+        default: false
+
+jobs:
+  nested_callable_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sleep 1
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Sleep 2
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Sleep 3
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Sleep 4
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Sleep 5
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Sleep 6
+        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        run: sleep 10
+      - name: Maybe fail unit tests
+        if: ${{ inputs.skip-sleep == true && vars.SKIP_FAILURE == 'false' }}
+        run: exit 1
+      - name: Dummy
+        run: echo "Dummy"
+

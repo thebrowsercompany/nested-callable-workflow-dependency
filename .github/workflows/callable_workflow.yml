@@ -1,0 +1,14 @@
+---
+name: Callable
+on:
+  workflow_call:
+
+jobs:
+  callable_job:
+    strategy:
+      fail-fast: true
+      matrix:
+        values: [a, b, c, d]
+    uses: ./.github/workflows/nested_callable_workflow.yml
+    with:
+      skip-sleep: ${{ matrix.values == 'a' }}

@@ -1,0 +1,29 @@
+---
+name: Pull Request - Single File Failure
+on:
+  pull_request:
+
+concurrency: ${{ github.workflow }}-${{ github.head_ref }}
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Okay
+        run: |
+          echo "Okay"
+
+  job2:
+    uses: ./.github/workflows/callable_workflow.yml
+
+  final:
+    needs: [job1, job2]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Forward failure
+        if: contains(needs.*.result, 'failure')
+        run: exit 1
+      - name: Forward cancelled
+        if: contains(needs.*.result, 'cancelled')
+        run: exit 2
