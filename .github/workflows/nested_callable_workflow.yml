@@ -12,26 +12,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sleep 1
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
       - name: Sleep 2
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
       - name: Sleep 3
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
       - name: Sleep 4
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
       - name: Sleep 5
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
       - name: Sleep 6
-        if: ${{ inputs.skip-sleep == false && vars.FORCE_SLEEP == 'true' }}
+        if: ${{ inputs.skip-sleep == false }}
         run: sleep 10
-      - name: Maybe fail unit tests
-        if: ${{ inputs.skip-sleep == true && vars.SKIP_FAILURE == 'false' }}
-        run: exit 1
+      - name: Get artifact if already exists
+        # This will fail the first time this workflow is run
+        id: download
+        if: ${{ inputs.skip-sleep == true }}
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+      - name: Create artifact if not there
+        if: always() && (inputs.skip-sleep == true)
+        run: touch artifact.md
+      - name: Upload artifact if not there
+        if: always() && (inputs.skip-sleep == true)
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact
+          path: artifact.md
       - name: Dummy
         run: echo "Dummy"
 
