@@ -18,3 +18,4 @@ Repro:
   - Only `job2 / ... / nested_callable_job` is listed as planned to run
   - `job2 / callable_job (a) / nested_callable_job` now passes
   - `final` now passes even though the nested jobs for the other matrix strategy still are marked as canceled
+
