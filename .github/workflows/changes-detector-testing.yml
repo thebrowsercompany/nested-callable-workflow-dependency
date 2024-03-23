@@ -16,4 +16,4 @@ jobs:
             src:
               - '**/*.*'
       - run: |
-          echo "${{ steps.changes.outputs.src_files }}"
+          echo "${{ fromJSON(toJSON(steps.changes.outputs.src_files)) }}"
