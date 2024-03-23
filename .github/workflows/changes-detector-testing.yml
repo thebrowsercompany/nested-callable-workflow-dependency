@@ -9,11 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
-        id: changes
+        id: includes
         with:
           list-files: 'json'
           filters: |
             src:
               - '**/*.*'
+      - uses: dorny/paths-filter@v3
+        id: excludes
+        with:
+          list-files: 'json'
+          predicate-quantifier: 'every'
+          filters: |
+            not-md:
+              - '**/*.md'
       - run: |
-          echo "${{ fromJSON(toJSON(steps.changes.outputs.src_files)) }}"
+          jq --argjson exc "${{ fromJSON(toJSON(steps.excludes.outputs.not-md_files)) }}" '. - $exc' <(echo "${{ steps.includes.outputs.src_files }}")
