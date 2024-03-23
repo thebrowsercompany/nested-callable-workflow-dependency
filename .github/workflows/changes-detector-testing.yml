@@ -24,4 +24,4 @@ jobs:
             not-md:
               - '**/*.md'
       - run: |
-          jq --argjson exc "${{ fromJSON(toJSON(steps.excludes.outputs.not-md_files)) }}" '. - $exc' <(echo "${{ steps.includes.outputs.src_files }}")
+          jq --argjson exc '${{ steps.excludes.outputs.not-md_files }}' '. - $exc' <(echo '${{ steps.includes.outputs.src_files }}')
